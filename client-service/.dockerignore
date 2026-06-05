@@ -1,0 +1,16 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+.git
+.gitignore
+README.md
+*.md
+
+.idea
+*.iws
+*.iml
+*.ipr
+
+.vscode/

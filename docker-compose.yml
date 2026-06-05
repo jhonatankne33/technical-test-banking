@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  postgres-client:
+    image: postgres:15-alpine
+    container_name: postgres-client
+    environment:
+      POSTGRES_DB: clientdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-client-data:/var/lib/postgresql/data
+      - ./BaseDatos-client.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-account:
+    image: postgres:15-alpine
+    container_name: postgres-account
+    environment:
+      POSTGRES_DB: accountdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-account-data:/var/lib/postgresql/data
+      - ./BaseDatos-account.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - microservices-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  client-service:
+    build:
+      context: ./client-service
+      dockerfile: Dockerfile
+    container_name: client-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-client:5432/clientdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres-client:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - microservices-network
+
+  account-service:
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    container_name: account-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-account:5432/accountdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      CLIENT_SERVICE_URL: http://client-service:8081
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres-account:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      client-service:
+        condition: service_started
+    networks:
+      - microservices-network
+
+volumes:
+  postgres-client-data:
+  postgres-account-data:
+
+networks:
+  microservices-network:
+    driver: bridge

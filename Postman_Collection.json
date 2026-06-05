@@ -1,0 +1,320 @@
+{
+	"info": {
+		"name": "Microservicios Bancarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Client Service",
+			"item": [
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Jose Lema\",\n  \"genero\": \"Masculino\",\n  \"edad\": 35,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Otavalo sn y principal\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"1234\",\n  \"estado\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/clientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["clientes"]
+						}
+					}
+				},
+				{
+					"name": "Obtener Todos los Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/clientes",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["clientes"]
+						}
+					}
+				},
+				{
+					"name": "Obtener Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["clientes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Jose Lema Actualizado\",\n  \"genero\": \"Masculino\",\n  \"edad\": 36,\n  \"identificacion\": \"1234567890\",\n  \"direccion\": \"Otavalo sn y principal\",\n  \"telefono\": \"098254785\",\n  \"contrasena\": \"1234\",\n  \"estado\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["clientes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Eliminar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/clientes/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["clientes", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Account Service",
+			"item": [
+				{
+					"name": "Cuentas",
+					"item": [
+						{
+							"name": "Crear Cuenta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoCuenta\": \"Ahorros\",\n  \"saldoInicial\": 2000,\n  \"estado\": true,\n  \"clienteId\": 1\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8082/cuentas",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["cuentas"]
+								}
+							}
+						},
+						{
+							"name": "Obtener Todas las Cuentas",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/cuentas",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["cuentas"]
+								}
+							}
+						},
+						{
+							"name": "Obtener Cuenta por ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/cuentas/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["cuentas", "1"]
+								}
+							}
+						},
+						{
+							"name": "Actualizar Cuenta",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoCuenta\": \"Ahorros\",\n  \"saldoInicial\": 2500,\n  \"estado\": true,\n  \"clienteId\": 1\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8082/cuentas/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["cuentas", "1"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Movimientos",
+					"item": [
+						{
+							"name": "Registrar Movimiento - Retiro",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"numeroCuenta\": \"478758\",\n  \"tipoMovimiento\": \"Retiro\",\n  \"valor\": -575\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["movimientos"]
+								}
+							}
+						},
+						{
+							"name": "Registrar Movimiento - Depósito",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"numeroCuenta\": \"225487\",\n  \"tipoMovimiento\": \"Deposito\",\n  \"valor\": 600\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["movimientos"]
+								}
+							}
+						},
+						{
+							"name": "Registrar Movimiento - Saldo Insuficiente",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"numeroCuenta\": \"496825\",\n  \"tipoMovimiento\": \"Retiro\",\n  \"valor\": -540\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["movimientos"]
+								}
+							}
+						},
+						{
+							"name": "Obtener Todos los Movimientos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["movimientos"]
+								}
+							}
+						},
+						{
+							"name": "Obtener Movimiento por ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/movimientos/1",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["movimientos", "1"]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Reportes",
+					"item": [
+						{
+							"name": "Estado de Cuenta",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/reportes?cliente=1&fechaInicio=2024-01-01&fechaFin=2026-12-31",
+									"protocol": "http",
+									"host": ["localhost"],
+									"port": "8082",
+									"path": ["reportes"],
+									"query": [
+										{
+											"key": "cliente",
+											"value": "1"
+										},
+										{
+											"key": "fechaInicio",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "fechaFin",
+											"value": "2026-12-31"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
