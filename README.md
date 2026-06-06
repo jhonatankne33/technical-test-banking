@@ -5,7 +5,6 @@ Sistema de microservicios para gestión de clientes, cuentas y movimientos banca
 ## Requisitos
 
 - Java 17
-- Maven 3.6+
 - Docker y Docker Compose
 
 ## Estructura
